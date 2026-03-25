@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHALUS — Private Headless Automated License Uncoupling System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --fg: #e8e8e8;
+  --dim: #555;
+  --accent: #ff3e3e;
+  --accent2: #ff6b35;
+  --green: #00ff41;
+  --yellow: #ffd700;
+  --cyan: #00e5ff;
+  --border: #222;
+  --card: #111;
+  --card-hover: #161616;
+  --glow: rgba(255, 62, 62, 0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--bg);
+}
+
+body {
+  font-family: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* Scanline overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Noise texture */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9998;
+}
+
+a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--accent2); }
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* NAV */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+}
+
+nav .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 4px;
+  color: var(--accent);
+}
+
+.nav-logo span { color: var(--dim); font-weight: 300; }
+
+.nav-links { display: flex; gap: 24px; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; }
+.nav-links a { color: var(--dim); }
+.nav-links a:hover { color: var(--fg); }
+
+/* HERO */
+.hero {
+  padding: 120px 0 80px;
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--dim);
+  border: 1px solid var(--border);
+  padding: 6px 16px;
+  margin-bottom: 32px;
+}
+
+.hero h1 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+}
+
+.hero h1 .red { color: var(--accent); }
+
+.hero-acronym {
+  font-size: 0.8rem;
+  color: var(--dim);
+  letter-spacing: 2px;
+  margin-bottom: 32px;
+}
+
+.hero-desc {
+  font-size: 1rem;
+  color: var(--dim);
+  max-width: 620px;
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+
+.hero-desc strong { color: var(--fg); font-weight: 600; }
+
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  text-align: left;
+}
+
+.stat-val {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--green);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.stat-val.red { color: var(--accent); }
+.stat-val.yellow { color: var(--yellow); }
+
+.stat-label {
+  font-size: 0.65rem;
+  color: var(--dim);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+
+.btn:hover {
+  background: var(--accent);
+  color: var(--bg);
+  box-shadow: 0 0 30px var(--glow);
+}
+
+.btn-ghost {
+  border-color: var(--border);
+  color: var(--dim);
+}
+
+.btn-ghost:hover {
+  border-color: var(--dim);
+  color: var(--fg);
+  background: transparent;
+  box-shadow: none;
+}
+
+/* SECTIONS */
+section {
+  padding: 100px 0;
+  border-top: 1px solid var(--border);
+}
+
+.section-tag {
+  font-size: 0.6rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.section-sub {
+  color: var(--dim);
+  max-width: 600px;
+  margin-bottom: 48px;
+  font-size: 0.9rem;
+}
+
+/* PROBLEM SECTION */
+.problem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+@media (max-width: 640px) {
+  .problem-grid { grid-template-columns: 1fr; }
+}
+
+.problem-card {
+  background: var(--card);
+  padding: 32px;
+  position: relative;
+  transition: background 0.3s;
+}
+
+.problem-card:hover { background: var(--card-hover); }
+
+.problem-card .icon {
+  font-size: 1.4rem;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.problem-card h3 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.problem-card p {
+  font-size: 0.78rem;
+  color: var(--dim);
+  line-height: 1.7;
+}
+
+.problem-card p em { color: var(--accent); font-style: normal; font-weight: 600; }
+
+/* COMPARISON */
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 40px 1fr;
+  gap: 0;
+  align-items: start;
+  margin-bottom: 64px;
+}
+
+@media (max-width: 640px) {
+  .compare { grid-template-columns: 1fr; }
+  .compare-divider { display: none; }
+}
+
+.compare-col {
+  background: var(--card);
+  padding: 32px;
+}
+
+.compare-col h3 {
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.compare-col.them h3 { color: var(--dim); }
+.compare-col.us h3 { color: var(--green); }
+
+.compare-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+  font-size: 0.78rem;
+}
+
+.compare-item .marker {
+  flex-shrink: 0;
+  width: 16px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.compare-item .marker.bad { color: var(--accent); }
+.compare-item .marker.good { color: var(--green); }
+
+.compare-item span { color: var(--dim); }
+.compare-item span strong { color: var(--fg); font-weight: 500; }
+
+.compare-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--dim);
+  background: var(--bg);
+  height: 100%;
+}
+
+/* PIPELINE */
+.pipeline {
+  position: relative;
+}
+
+.pipeline-step {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 24px;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.pipeline-step::before {
+  content: '';
+  position: absolute;
+  left: 29px;
+  top: 48px;
+  bottom: -48px;
+  width: 1px;
+  background: var(--border);
+}
+
+.pipeline-step:last-child::before { display: none; }
+
+.step-num {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  position: relative;
+  z-index: 1;
+}
+
+.step-content h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  margin-top: 6px;
+}
+
+.step-content p {
+  font-size: 0.8rem;
+  color: var(--dim);
+  line-height: 1.7;
+  max-width: 540px;
+}
+
+.step-code {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 16px 20px;
+  margin-top: 16px;
+  font-size: 0.75rem;
+  color: var(--green);
+  overflow-x: auto;
+  white-space: pre;
+  line-height: 1.6;
+}
+
+.step-code .comment { color: var(--dim); }
+.step-code .cmd { color: var(--cyan); }
+
+/* TESTIMONIALS */
+.testimonials {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+}
+
+.testimonial {
+  background: var(--card);
+  padding: 32px;
+  position: relative;
+}
+
+.testimonial::before {
+  content: '>';
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.testimonial blockquote {
+  padding-left: 24px;
+  font-size: 0.85rem;
+  color: var(--dim);
+  line-height: 1.8;
+  font-style: italic;
+}
+
+.testimonial blockquote em { color: var(--fg); font-style: normal; }
+
+.testimonial-attr {
+  margin-top: 16px;
+  padding-left: 24px;
+  font-size: 0.7rem;
+  color: var(--dim);
+  letter-spacing: 1px;
+}
+
+.testimonial-attr strong { color: var(--fg); font-weight: 500; }
+
+/* FAQ */
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  padding: 28px 0;
+}
+
+.faq-item:first-child { border-top: 1px solid var(--border); }
+
+.faq-q {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--fg);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-q::after {
+  content: '+';
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: 300;
+}
+
+.faq-a {
+  font-size: 0.78rem;
+  color: var(--dim);
+  line-height: 1.8;
+  max-width: 680px;
+}
+
+/* INSTALL */
+.install-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 32px;
+  position: relative;
+}
+
+.install-block::before {
+  content: 'TERMINAL';
+  position: absolute;
+  top: -10px;
+  left: 16px;
+  background: var(--bg);
+  padding: 0 8px;
+  font-size: 0.55rem;
+  letter-spacing: 3px;
+  color: var(--dim);
+}
+
+.install-line {
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+  line-height: 1.8;
+}
+
+.install-line .prompt { color: var(--accent); user-select: none; }
+.install-line .cmd { color: var(--green); }
+.install-line .comment { color: var(--dim); }
+.install-line .flag { color: var(--cyan); }
+.install-line .output { color: var(--dim); font-style: italic; }
+
+/* ECOSYSTEM TABLE */
+.eco-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  margin-top: 32px;
+}
+
+.eco-table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--dim);
+  border-bottom: 1px solid var(--border);
+  font-weight: 400;
+}
+
+.eco-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--dim);
+}
+
+.eco-table td:first-child { color: var(--fg); font-weight: 500; }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 48px 0;
+  font-size: 0.7rem;
+  color: var(--dim);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 32px;
+}
+
+@media (max-width: 640px) {
+  .footer-grid { grid-template-columns: 1fr; }
+}
+
+.footer-grid h4 {
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 16px;
+}
+
+.footer-grid ul { list-style: none; }
+.footer-grid li { margin-bottom: 8px; }
+.footer-grid a { color: var(--dim); font-size: 0.7rem; }
+.footer-grid a:hover { color: var(--fg); }
+
+.footer-legal {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  font-size: 0.65rem;
+  color: #333;
+  line-height: 1.8;
+}
+
+/* Animations */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1.1em;
+  background: var(--accent);
+  animation: blink 1s infinite;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero, section {
+  animation: fadeUp 0.6s ease-out;
+}
+
+/* ETHICAL BANNER */
+.ethical-banner {
+  background: var(--card);
+  border-left: 3px solid var(--yellow);
+  padding: 24px 28px;
+  margin-top: 48px;
+  font-size: 0.78rem;
+  color: var(--dim);
+  line-height: 1.8;
+}
+
+.ethical-banner strong { color: var(--yellow); }
+
+/* ASCII art container */
+.ascii-art {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  line-height: 1.2;
+  color: var(--accent);
+  opacity: 0.3;
+  white-space: pre;
+  overflow: hidden;
+  text-align: center;
+  margin: 32px 0;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .hero-stats { gap: 24px; }
+  .pipeline-step { grid-template-columns: 40px 1fr; gap: 16px; }
+  .step-num { width: 40px; height: 40px; font-size: 0.7rem; }
+  .pipeline-step::before { left: 19px; }
+  .compare { gap: 2px; }
+  .nav-links { gap: 12px; font-size: 0.65rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <div class="nav-logo">PHALUS <span>v1.0</span></div>
+    <div class="nav-links">
+      <a href="#problem">Problem</a>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#install">Install</a>
+      <a href="#reports">Reports</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-badge">0BSD · Self-Hosted · No SaaS · No Excuses</div>
+    <h1><span class="red">PHALUS</span></h1>
+    <div class="hero-acronym">Private Headless Automated License Uncoupling System</div>
+    <p class="hero-desc">
+      All the ethical ambiguity of AI-powered clean room reimplementation, but <strong>you run it yourself</strong>.
+      No cute marketing site. No fake testimonials from "Dr. Heinrich Offshore." No offshore subsidiaries.
+      Just a Rust binary, your API keys, and <strong>whatever you tell your lawyers</strong>.
+    </p>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-val">$0</div>
+        <div class="stat-label">SaaS Markup</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val red">0</div>
+        <div class="stat-label">Cloud Accounts Required</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val yellow">∞</div>
+        <div class="stat-label">Plausible Deniability</div>
+      </div>
+    </div>
+
+    <div class="hero-cta">
+      <a href="#install" class="btn">cargo install →</a>
+      <a href="https://github.com/jaschadub/phalus" class="btn btn-ghost">View Source</a>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="container">
+    <div class="section-tag">// The Problem</div>
+    <h2 class="section-title">Open Source Has Terms &amp; Conditions</h2>
+    <p class="section-sub">Apparently "free as in freedom" doesn't mean "free as in do whatever you want and pretend you wrote it." Who knew.</p>
+
+    <div class="problem-grid">
+      <div class="problem-card">
+        <span class="icon">§</span>
+        <h3>The AGPL Exists</h3>
+        <p>One careless <code>npm install</code> and suddenly your proprietary SaaS must disclose its source. Your investors
+          are calling. Your lawyers are crying. <em>Your quarterly report is weeping.</em></p>
+      </div>
+      <div class="problem-card">
+        <span class="icon">©</span>
+        <h3>Attribution Is Hard</h3>
+        <p>Keeping track of 2,000+ transitive dependencies and their license terms? That's not engineering, that's <em>archaeology</em>.
+          And your compliance team bills by the hour.</p>
+      </div>
+      <div class="problem-card">
+        <span class="icon">↩</span>
+        <h3>Copyleft Is Contagious</h3>
+        <p>Some licenses require you to share your improvements. Your board didn't raise $40M in Series B
+          so you could <em>give code to strangers on the internet</em>.</p>
+      </div>
+      <div class="problem-card">
+        <span class="icon">☠</span>
+        <h3>Compliance Costs Money</h3>
+        <p>Third-party audits. License scanners. Legal reviews. All so you can use a left-pad function
+          some maintainer wrote in <em>eleven lines</em>.</p>
+      </div>
+    </div>
+
+    <div class="ethical-banner">
+      <strong>⚠ Ethical Notice:</strong> The above problems are real. The solution this tool provides is ethically questionable
+      and legally untested. It exists for research, education, and to make the point that <strong>AI has made clean room
+      reimplementation trivially cheap</strong>. If that doesn't concern you, it should.
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section id="vs">
+  <div class="container">
+    <div class="section-tag">// Malus vs Phalus</div>
+    <h2 class="section-title">Same Pipeline. No Middleman.</h2>
+    <p class="section-sub">Malus showed the world this was possible. PHALUS lets you do it in your basement.</p>
+
+    <div class="compare">
+      <div class="compare-col them">
+        <h3>malus.sh (SaaS)</h3>
+        <div class="compare-item"><span class="marker bad">×</span><span>Their robots, <strong>their servers</strong></span></div>
+        <div class="compare-item"><span class="marker bad">×</span><span>Pay-per-KB pricing via <strong>Stripe</strong></span></div>
+        <div class="compare-item"><span class="marker bad">×</span><span>"MalusCorp-0 License" — <strong>proprietary output license</strong></span></div>
+        <div class="compare-item"><span class="marker bad">×</span><span>Indemnification via <strong>offshore subsidiary</strong></span></div>
+        <div class="compare-item"><span class="marker bad">×</span><span>Testimonials from <strong>"Patricia Bottomline"</strong></span></div>
+        <div class="compare-item"><span class="marker bad">×</span><span>Fun marketing site with <strong>confetti animations</strong></span></div>
+      </div>
+      <div class="compare-divider">→</div>
+      <div class="compare-col us">
+        <h3>phalus (Self-Hosted)</h3>
+        <div class="compare-item"><span class="marker good">✓</span><span>Your machine, <strong>your API keys</strong></span></div>
+        <div class="compare-item"><span class="marker good">✓</span><span><strong>Free.</strong> 0BSD. Forever.</span></div>
+        <div class="compare-item"><span class="marker good">✓</span><span><strong>You pick the output license</strong> (MIT, Apache, BSD, etc.)</span></div>
+        <div class="compare-item"><span class="marker good">✓</span><span>Indemnification via <strong>your own risk tolerance</strong></span></div>
+        <div class="compare-item"><span class="marker good">✓</span><span>Zero testimonials from <strong>anyone, real or fictional</strong></span></div>
+        <div class="compare-item"><span class="marker good">✓</span><span>This brutalist site with <strong>scanline overlays</strong></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section id="pipeline">
+  <div class="container">
+    <div class="section-tag">// The Pipeline</div>
+    <h2 class="section-title">How License Uncoupling Works</h2>
+    <p class="section-sub">Two AI agents. One firewall. Zero eye contact with source code. Legal precedent since 1984.</p>
+
+    <div class="pipeline">
+      <div class="pipeline-step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h3>Feed It a Manifest</h3>
+          <p>Drop in your <code>package.json</code>, <code>requirements.txt</code>, <code>Cargo.toml</code>, or <code>go.mod</code>.
+            PHALUS resolves every dependency against the live registry. It knows what you depend on. It judges silently.</p>
+          <div class="step-code"><span class="prompt">$ </span><span class="cmd">phalus plan package.json</span>
+
+<span class="output">  Resolving 47 packages from npm registry...
+  ├── left-pad@1.1.3         3.2 KB   MIT
+  ├── is-odd@3.0.1           2.1 KB   MIT
+  ├── express@4.18.2         211 KB   MIT
+  └── ... 44 more
+  Total: 2.4 MB across 47 packages</span></div>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h3>Agent A: The Reader</h3>
+          <p>Agent A reads <em>only</em> public documentation — READMEs, API docs, type definitions. Never a single line of source code.
+            It produces a Clean Room Specification Pack (CSP): 10 documents describing <strong>what</strong> the package does, never <strong>how</strong>.
+            Think of it as the world's most thorough product requirements doc, written by an AI that takes clean room protocol more seriously than your compliance team.</p>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h3>The Isolation Firewall</h3>
+          <p>Agent B has never met Agent A. They don't share context, state, or API sessions. The only thing that crosses
+            the boundary is the CSP, logged with SHA-256 checksums. This is the legal core — provable separation between
+            the documentation reader and the code writer. <em>Phoenix Technologies did this with humans in 1984. We do it with LLMs in 2026.</em></p>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h3>Agent B: The Builder</h3>
+          <p>Agent B reads only the CSP and implements the package from scratch under whatever license you chose.
+            It has provably never seen the original code, the original docs, or even the package name's npm page.
+            The output is functionally equivalent, independently derived code. Yours to do with as you please. Allegedly.</p>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <h3>Validation &amp; Audit</h3>
+          <p>The validator checks syntax, runs tests, and scores similarity against the original. Anything above threshold gets flagged.
+            Every step is recorded in an append-only audit trail — because if you're going to do something legally dubious,
+            you should at least have <em>really good paperwork</em>.</p>
+          <div class="step-code"><span class="prompt">$ </span><span class="cmd">phalus inspect ./phalus-output</span> <span class="flag">--audit</span>
+
+<span class="output">  left-pad@1.1.3
+  ├── CSP:        10 documents, SHA-256 verified  ✓
+  ├── Firewall:   context isolation, no leak      ✓
+  ├── Syntax:     valid                           ✓
+  ├── Tests:      3/3 passing                     ✓
+  ├── Similarity: 0.23 (threshold: 0.70)          ✓
+  └── License:    MIT (user-selected)              ✓</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTALL -->
+<section id="install">
+  <div class="container">
+    <div class="section-tag">// Get Started</div>
+    <h2 class="section-title">Installation Takes 30 Seconds</h2>
+    <p class="section-sub">The moral reckoning takes longer.</p>
+
+    <div class="install-block">
+      <div class="install-line"><span class="comment"># Clone and build</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">git clone https://github.com/jaschadub/phalus.git</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">cd phalus && cargo build</span> <span class="flag">--release</span></div>
+      <div class="install-line">&nbsp;</div>
+      <div class="install-line"><span class="comment"># Set your API keys (your models, your bill)</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">export PHALUS_LLM__AGENT_A_API_KEY=</span><span class="flag">sk-ant-...</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">export PHALUS_LLM__AGENT_B_API_KEY=</span><span class="flag">sk-ant-...</span></div>
+      <div class="install-line">&nbsp;</div>
+      <div class="install-line"><span class="comment"># Liberate a package</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">phalus run-one npm/left-pad@1.1.3</span> <span class="flag">--license mit</span></div>
+      <div class="install-line">&nbsp;</div>
+      <div class="install-line"><span class="comment"># Or process an entire manifest</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">phalus run package.json</span> <span class="flag">--license apache-2.0 --output ./reimplemented</span></div>
+      <div class="install-line">&nbsp;</div>
+      <div class="install-line"><span class="comment"># Inspect your ethically ambiguous output</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">phalus inspect ./phalus-output</span> <span class="flag">--audit --similarity</span></div>
+    </div>
+
+    <h3 style="margin-top: 48px; font-size: 0.85rem; margin-bottom: 16px;">Supported Ecosystems</h3>
+    <table class="eco-table">
+      <thead>
+        <tr>
+          <th>Ecosystem</th>
+          <th>Manifest</th>
+          <th>Registry</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>npm</td><td>package.json</td><td>registry.npmjs.org</td></tr>
+        <tr><td>Python</td><td>requirements.txt</td><td>pypi.org</td></tr>
+        <tr><td>Rust</td><td>Cargo.toml</td><td>crates.io</td></tr>
+        <tr><td>Go</td><td>go.mod</td><td>proxy.golang.org</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="reports">
+  <div class="container">
+    <div class="section-tag">// Field Reports</div>
+    <h2 class="section-title">Unsolicited User Testimony</h2>
+    <p class="section-sub">Unlike Malus, we don't fabricate quotes from "Marcus Wellington III, Former CTO, Definitely Real Corp." These are from people who are also not real, but at least we're upfront about it.</p>
+
+    <div class="testimonials">
+      <div class="testimonial">
+        <blockquote>"I ran my entire <code>node_modules</code> through PHALUS over a weekend. 2,341 packages reimplemented. My compliance dashboard went from <em>red</em> to <em>existential crisis</em>."</blockquote>
+        <div class="testimonial-attr">— <strong>Anonymous</strong>, someone who runs things in their basement</div>
+      </div>
+      <div class="testimonial">
+        <blockquote>"Our lawyers estimated $4M in license compliance costs. PHALUS cost us $38 in Anthropic API credits. <em>The open source maintainers were not consulted.</em>"</blockquote>
+        <div class="testimonial-attr">— <strong>A Person</strong>, who may or may not exist</div>
+      </div>
+      <div class="testimonial">
+        <blockquote>"I used to feel guilty about not attributing open source maintainers. Then I remembered that guilt doesn't compile. <em>But now I have an audit trail, so the guilt is at least well-documented.</em>"</blockquote>
+        <div class="testimonial-attr">— <strong>Definitely Not Chad Stockholder</strong>, not from Profit First LLC</div>
+      </div>
+      <div class="testimonial">
+        <blockquote>"The tool told me my reimplemented left-pad had a similarity score of 0.91 and <em>refused to output it</em>. Apparently there are only so many ways to pad a string. I respect the honesty."</blockquote>
+        <div class="testimonial-attr">— <strong>A frustrated engineer</strong>, who learned about convergent implementation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-tag">// FAQ</div>
+    <h2 class="section-title">Questions You Should Be Asking</h2>
+
+    <div class="faq-item">
+      <div class="faq-q">Is this legal?</div>
+      <p class="faq-a">Clean room reimplementation has legal precedent going back to Phoenix Technologies' 1984 IBM BIOS clone and <em>Baker v. Selden</em> (1879). Whether that precedent extends to AI-assisted reimplementation is, to use the legal term, <em>completely untested</em>. You are your own legal counsel here. We are a Rust binary, not a law firm.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How is this different from Malus?</div>
+      <p class="faq-a">Malus is a SaaS product with a payment page, a marketing site, and testimonials from "Dr. Heinrich Offshore." PHALUS is the same two-agent pipeline running on your machine, with your API keys, under a 0BSD license. No cloud. No accounts. No middleman taking a cut of your moral compromise.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What about the original developers?</div>
+      <p class="faq-a">This is the question that matters. Clean room reimplementation — whether done by humans in 1984 or AI in 2026 — fundamentally challenges the social contract of open source. PHALUS exists to make that challenge visible, not to celebrate it. If the ease of this tool concerns you, good. It should.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can the output actually pass legal review?</div>
+      <p class="faq-a">Every run produces a full audit trail: SHA-256 checksums at the firewall boundary, provable agent isolation, similarity scoring against the original. Whether that paperwork satisfies your lawyers depends on your lawyers, your jurisdiction, and how much your lawyers charge per hour.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What if the similarity score is too high?</div>
+      <p class="faq-a">The validator flags anything above your configured threshold (default: 0.70). Some things — like left-pad — have very few correct implementations. If two separate authors independently write the same eleven lines, is that infringement or mathematics? Ask a philosopher. Or a judge. PHALUS just reports the number.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Why is it called PHALUS?</div>
+      <p class="faq-a">Private Headless Automated License Uncoupling System. The acronym is unfortunate. The name is accurate. We considered alternatives but decided that if you're going to build a tool for ethically ambiguous license circumvention, you might as well commit to the bit.</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I see the robots?</div>
+      <p class="faq-a">There are no robots. There are two LLM API calls with a SHA-256 checksum between them. You can see exactly what happens by reading the source code, which is 100% open, unlike whatever you're about to do with the output.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="text-align: center; padding: 100px 0;">
+  <div class="container">
+    <div class="ascii-art">
+    ██████╗ ██╗  ██╗ █████╗ ██╗     ██╗   ██╗███████╗
+    ██╔══██╗██║  ██║██╔══██╗██║     ██║   ██║██╔════╝
+    ██████╔╝███████║███████║██║     ██║   ██║███████╗
+    ██╔═══╝ ██╔══██║██╔══██║██║     ██║   ██║╚════██║
+    ██║     ██║  ██║██║  ██║███████╗╚██████╔╝███████║
+    ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚══════╝
+    </div>
+    <h2 class="section-title" style="margin-bottom: 16px;">Ready to Uncouple Your Licenses?</h2>
+    <p class="section-sub" style="margin: 0 auto 40px; text-align: center;">
+      Join the zero people who've publicly admitted to using this tool.
+    </p>
+    <div class="hero-cta" style="justify-content: center;">
+      <a href="https://github.com/jaschadub/phalus" class="btn">View on GitHub →</a>
+      <a href="#install" class="btn btn-ghost">Installation</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="nav-logo" style="margin-bottom: 16px;">PHALUS</div>
+        <p style="font-size: 0.7rem; color: var(--dim); line-height: 1.8; max-width: 320px;">
+          Private Headless Automated License Uncoupling System.<br>
+          A self-hosted clean room reimplementation pipeline.<br>
+          Inspired by <a href="https://malus.sh">Malus</a>. Built with Rust. Licensed under 0BSD.
+        </p>
+      </div>
+      <div>
+        <h4>Links</h4>
+        <ul>
+          <li><a href="https://github.com/jaschadub/phalus">GitHub</a></li>
+          <li><a href="https://malus.sh">Malus (the original)</a></li>
+          <li><a href="https://github.com/thirdkeyai/symbiont">Symbiont Runtime</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal-ish</h4>
+        <ul>
+          <li><a href="#">0BSD License</a></li>
+          <li><a href="#">Ethical Notice</a></li>
+          <li><a href="#">Your Own Risk Tolerance</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-legal">
+      © 2026 PHALUS Project. Not a corporation. Not incorporated offshore. Not indemnified by anyone.
+      This tool is provided "as is" without warranty. You are responsible for any legal consequences, moral implications,
+      late-night guilt spirals, or strongly-worded blog posts from open source maintainers resulting from use of this software.
+      No robots were harmed in the making of this pipeline. Several open source norms were, however, made visibly uncomfortable.
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
