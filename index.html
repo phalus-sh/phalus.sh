@@ -710,7 +710,7 @@ footer {
 
     <div class="hero-cta">
       <a href="#install" class="btn">cargo install →</a>
-      <a href="https://github.com/jaschadub/phalus" class="btn btn-ghost">View Source</a>
+      <a href="https://github.com/phalus-sh/phalus" class="btn btn-ghost">View Source</a>
     </div>
   </div>
 </div>
@@ -872,11 +872,38 @@ footer {
     <h2 class="section-title">Installation Takes 30 Seconds</h2>
     <p class="section-sub">The moral reckoning takes longer.</p>
 
+    <h3 style="font-size: 0.85rem; margin-bottom: 16px; color: var(--green);">Option 1: Install from crates.io</h3>
     <div class="install-block">
-      <div class="install-line"><span class="comment"># Clone and build</span></div>
-      <div class="install-line"><span class="prompt">$ </span><span class="cmd">git clone https://github.com/jaschadub/phalus.git</span></div>
-      <div class="install-line"><span class="prompt">$ </span><span class="cmd">cd phalus && cargo build</span> <span class="flag">--release</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">cargo install phalus</span></div>
+    </div>
+
+    <h3 style="font-size: 0.85rem; margin-bottom: 16px; margin-top: 32px; color: var(--green);">Option 2: Download binary</h3>
+    <div class="install-block">
+      <div class="install-line"><span class="comment"># Linux (x86_64)</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">curl -L</span> <span class="flag">https://github.com/phalus-sh/phalus/releases/latest/download/phalus-v0.1.0-x86_64-unknown-linux-gnu.tar.gz</span> <span class="cmd">| tar xz</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">sudo mv phalus /usr/local/bin/</span></div>
       <div class="install-line">&nbsp;</div>
+      <div class="install-line"><span class="comment"># macOS (Apple Silicon)</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">curl -L</span> <span class="flag">https://github.com/phalus-sh/phalus/releases/latest/download/phalus-v0.1.0-aarch64-apple-darwin.tar.gz</span> <span class="cmd">| tar xz</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">sudo mv phalus /usr/local/bin/</span></div>
+    </div>
+
+    <h3 style="font-size: 0.85rem; margin-bottom: 16px; margin-top: 32px; color: var(--green);">Option 3: Docker</h3>
+    <div class="install-block">
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">docker run -p 3000:3000</span> <span class="flag">\</span></div>
+      <div class="install-line"><span class="cmd">    -e PHALUS_LLM__AGENT_A_API_KEY=</span><span class="flag">sk-ant-...</span> <span class="flag">\</span></div>
+      <div class="install-line"><span class="cmd">    -e PHALUS_LLM__AGENT_B_API_KEY=</span><span class="flag">sk-ant-...</span> <span class="flag">\</span></div>
+      <div class="install-line"><span class="cmd">    ghcr.io/phalus-sh/phalus:latest</span></div>
+    </div>
+
+    <h3 style="font-size: 0.85rem; margin-bottom: 16px; margin-top: 32px; color: var(--green);">Option 4: Build from source</h3>
+    <div class="install-block">
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">git clone https://github.com/phalus-sh/phalus.git</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">cd phalus && cargo build</span> <span class="flag">--release</span></div>
+    </div>
+
+    <h3 style="font-size: 0.85rem; margin-bottom: 16px; margin-top: 48px; color: var(--fg);">Quick Start</h3>
+    <div class="install-block">
       <div class="install-line"><span class="comment"># Set your API keys (your models, your bill)</span></div>
       <div class="install-line"><span class="prompt">$ </span><span class="cmd">export PHALUS_LLM__AGENT_A_API_KEY=</span><span class="flag">sk-ant-...</span></div>
       <div class="install-line"><span class="prompt">$ </span><span class="cmd">export PHALUS_LLM__AGENT_B_API_KEY=</span><span class="flag">sk-ant-...</span></div>
@@ -886,6 +913,10 @@ footer {
       <div class="install-line">&nbsp;</div>
       <div class="install-line"><span class="comment"># Or process an entire manifest</span></div>
       <div class="install-line"><span class="prompt">$ </span><span class="cmd">phalus run package.json</span> <span class="flag">--license apache-2.0 --output ./reimplemented</span></div>
+      <div class="install-line">&nbsp;</div>
+      <div class="install-line"><span class="comment"># Launch the web UI</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">phalus serve</span></div>
+      <div class="install-line"><span class="output">PHALUS web UI running at http://127.0.0.1:3000</span></div>
       <div class="install-line">&nbsp;</div>
       <div class="install-line"><span class="comment"># Inspect your ethically ambiguous output</span></div>
       <div class="install-line"><span class="prompt">$ </span><span class="cmd">phalus inspect ./phalus-output</span> <span class="flag">--audit --similarity</span></div>
@@ -991,7 +1022,7 @@ footer {
       Join the zero people who've publicly admitted to using this tool.
     </p>
     <div class="hero-cta" style="justify-content: center;">
-      <a href="https://github.com/jaschadub/phalus" class="btn">View on GitHub →</a>
+      <a href="https://github.com/phalus-sh/phalus" class="btn">View on GitHub →</a>
       <a href="#install" class="btn btn-ghost">Installation</a>
     </div>
   </div>
@@ -1012,7 +1043,7 @@ footer {
       <div>
         <h4>Links</h4>
         <ul>
-          <li><a href="https://github.com/jaschadub/phalus">GitHub</a></li>
+          <li><a href="https://github.com/phalus-sh/phalus">GitHub</a></li>
           <li><a href="https://malus.sh">Malus (the original)</a></li>
           <li><a href="https://github.com/thirdkeyai/symbiont">Symbiont Runtime</a></li>
         </ul>
