@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Own Risk Tolerance | PHALUS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --fg: #e8e8e8;
+  --dim: #555;
+  --accent: #ff3e3e;
+  --accent2: #ff6b35;
+  --green: #00ff41;
+  --yellow: #ffd700;
+  --cyan: #00e5ff;
+  --border: #222;
+  --card: #111;
+  --glow: rgba(255, 62, 62, 0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.8;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); }
+
+.container { max-width: 720px; margin: 0 auto; padding: 80px 24px; }
+
+nav {
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 4px;
+  color: var(--accent);
+}
+
+.nav-back {
+  font-size: 0.75rem;
+  color: var(--dim);
+  letter-spacing: 1px;
+}
+
+.section-tag {
+  font-size: 0.6rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+h1 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.subtitle {
+  color: var(--dim);
+  margin-bottom: 48px;
+  font-size: 0.9rem;
+}
+
+h2 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 48px 0 16px;
+}
+
+p { color: var(--dim); margin-bottom: 16px; font-size: 0.85rem; }
+p strong { color: var(--fg); font-weight: 500; }
+p em { color: var(--accent); font-style: normal; }
+
+.risk-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin: 32px 0;
+}
+
+@media (max-width: 640px) {
+  .risk-grid { grid-template-columns: 1fr; }
+}
+
+.risk-card {
+  background: var(--card);
+  padding: 24px;
+}
+
+.risk-card h3 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.risk-card.low h3 { color: var(--green); }
+.risk-card.medium h3 { color: var(--yellow); }
+.risk-card.high h3 { color: var(--accent2); }
+.risk-card.extreme h3 { color: var(--accent); }
+
+.risk-card p {
+  font-size: 0.75rem;
+  margin-bottom: 0;
+}
+
+.risk-label {
+  display: inline-block;
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  margin-bottom: 12px;
+}
+
+.risk-label.low { color: var(--green); border: 1px solid var(--green); }
+.risk-label.medium { color: var(--yellow); border: 1px solid var(--yellow); }
+.risk-label.high { color: var(--accent2); border: 1px solid var(--accent2); }
+.risk-label.extreme { color: var(--accent); border: 1px solid var(--accent); }
+
+.mitigation {
+  background: var(--card);
+  border-left: 3px solid var(--green);
+  padding: 20px 24px;
+  margin: 24px 0;
+  font-size: 0.85rem;
+}
+
+.mitigation strong { color: var(--green); }
+.mitigation p { margin-bottom: 8px; }
+.mitigation p:last-child { margin-bottom: 0; }
+
+.bottom-links {
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 24px;
+  font-size: 0.7rem;
+}
+
+.bottom-links a {
+  color: var(--dim);
+  border: 1px solid var(--border);
+  padding: 8px 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.bottom-links a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">PHALUS</a>
+  <a href="/" class="nav-back">&larr; Back</a>
+</nav>
+
+<div class="container">
+  <div class="section-tag">// Risk Assessment</div>
+  <h1>Your Own Risk Tolerance</h1>
+  <p class="subtitle">A framework for deciding how much legal ambiguity you can stomach.</p>
+
+  <p>PHALUS produces code with an audit trail. Whether that audit trail constitutes a legal defense depends on factors this tool cannot evaluate for you. Here's what you should consider.</p>
+
+  <h2>Risk Factors</h2>
+
+  <div class="risk-grid">
+    <div class="risk-card low">
+      <span class="risk-label low">Low Risk</span>
+      <h3>Thin Copyright (Utility Functions)</h3>
+      <p>Simple functions like left-pad, is-odd, or type-checking utilities may lack sufficient creative expression to be copyrightable. Reimplementation is likely defensible regardless of method.</p>
+    </div>
+    <div class="risk-card medium">
+      <span class="risk-label medium">Medium Risk</span>
+      <h3>Permissive Licenses (MIT, BSD, ISC)</h3>
+      <p>The original is already permissively licensed. Reimplementation removes attribution requirements but the license was designed to be easy to comply with. The question is why you're avoiding it.</p>
+    </div>
+    <div class="risk-card high">
+      <span class="risk-label high">High Risk</span>
+      <h3>Copyleft Licenses (GPL, AGPL)</h3>
+      <p>These licenses exist specifically to prevent what you're doing. Clean room reimplementation is a legal end-run around their intent. The audit trail helps, but intent matters in court.</p>
+    </div>
+    <div class="risk-card extreme">
+      <span class="risk-label extreme">Extreme Risk</span>
+      <h3>Large, Complex Libraries</h3>
+      <p>The more creative expression in the original, the harder it is to argue independent creation. LLM training data contamination makes this worse. A 10,000-line library has more surface area for accidental copying than a 10-line utility.</p>
+    </div>
+  </div>
+
+  <h2>The Training Data Question</h2>
+  <p>Every AI clean room argument has the same weakness: <strong>the model may have seen the original source during training.</strong> If GPT-4 or Claude was trained on the npm registry, its "independent" reimplementation may carry fingerprints from the original. No amount of process isolation at inference time can undo training-time exposure.</p>
+
+  <p>PHALUS mitigates this with similarity scoring, but a low similarity score doesn't prove the absence of influence &mdash; it only proves the output doesn't look obviously copied.</p>
+
+  <h2>Mitigation Strategies</h2>
+
+  <div class="mitigation">
+    <p><strong>Cross-language reimplementation.</strong> Use <code>--target-lang rust</code> to reimplement a JavaScript library in Rust. The structural divergence from a language change makes accidental similarity nearly impossible.</p>
+    <p><strong>Similarity thresholds.</strong> Set <code>--similarity-threshold 0.30</code> to flag anything that looks too close to the original. Review flagged output manually.</p>
+    <p><strong>Human review.</strong> For high-risk packages (AGPL, large codebases), review the output manually before using it. The audit trail is evidence of process, not a guarantee of legality.</p>
+    <p><strong>Multiple passes.</strong> Generate several implementations and select the most divergent. Different runs produce different code &mdash; pick the one least likely to resemble the original.</p>
+  </div>
+
+  <h2>Jurisdiction Matters</h2>
+  <p>Clean room methodology has the strongest legal precedent in <strong>United States law</strong>. Other jurisdictions may not recognize it, may define "independent creation" differently, or may have moral rights provisions that can't be contracted around.</p>
+
+  <p>If you operate in the EU, be aware of the <strong>Software Directive</strong> and its provisions around interoperability. If you operate in multiple jurisdictions, apply the strictest standard.</p>
+
+  <h2>The Bottom Line</h2>
+  <p>This tool generates code and produces an audit trail. It does not generate legal opinions. The audit trail proves what happened during the process. It does not prove the output is non-infringing.</p>
+
+  <p><strong>If you wouldn't be comfortable explaining your use of this tool in a deposition, don't use it.</strong></p>
+
+  <p>That's not a legal standard. It's a practical one. <em>The legal standard is whatever a judge decides it is.</em></p>
+
+  <div class="bottom-links">
+    <a href="/">Home</a>
+    <a href="/license.html">0BSD License</a>
+    <a href="/ethics.html">Ethical Notice</a>
+    <a href="https://github.com/phalus-sh/phalus">GitHub</a>
+  </div>
+</div>
+
+</body>
+</html>

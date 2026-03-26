@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>0BSD License | PHALUS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --fg: #e8e8e8;
+  --dim: #555;
+  --accent: #ff3e3e;
+  --accent2: #ff6b35;
+  --green: #00ff41;
+  --yellow: #ffd700;
+  --cyan: #00e5ff;
+  --border: #222;
+  --card: #111;
+  --glow: rgba(255, 62, 62, 0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.8;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); }
+
+.container { max-width: 720px; margin: 0 auto; padding: 80px 24px; }
+
+nav {
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 4px;
+  color: var(--accent);
+}
+
+.nav-back {
+  font-size: 0.75rem;
+  color: var(--dim);
+  letter-spacing: 1px;
+}
+
+.section-tag {
+  font-size: 0.6rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+h1 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.subtitle {
+  color: var(--dim);
+  margin-bottom: 48px;
+  font-size: 0.9rem;
+}
+
+.license-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 32px;
+  font-size: 0.85rem;
+  line-height: 2;
+  margin-bottom: 48px;
+}
+
+.license-box .copyright { color: var(--green); font-weight: 500; }
+.license-box .grant { color: var(--cyan); }
+.license-box .disclaimer { color: var(--dim); font-size: 0.78rem; margin-top: 16px; }
+
+h2 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--green);
+  margin: 48px 0 16px;
+}
+
+p { color: var(--dim); margin-bottom: 16px; font-size: 0.85rem; }
+p strong { color: var(--fg); font-weight: 500; }
+p em { color: var(--accent); font-style: normal; }
+
+.bottom-links {
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 24px;
+  font-size: 0.7rem;
+}
+
+.bottom-links a {
+  color: var(--dim);
+  border: 1px solid var(--border);
+  padding: 8px 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.bottom-links a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">PHALUS</a>
+  <a href="/" class="nav-back">&larr; Back</a>
+</nav>
+
+<div class="container">
+  <div class="section-tag">// Legal</div>
+  <h1>0BSD License</h1>
+  <p class="subtitle">The most permissive license that still technically counts as a license.</p>
+
+  <div class="license-box">
+    <div class="copyright">Copyright (C) 2026 PHALUS Project</div>
+    <br>
+    <div class="grant">Permission to use, copy, modify, and/or distribute this software for any
+    purpose with or without fee is hereby granted.</div>
+    <div class="disclaimer">
+      THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+      REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+      AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+      INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+      LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+      OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+      PERFORMANCE OF THIS SOFTWARE.
+    </div>
+  </div>
+
+  <h2>What This Means</h2>
+  <p><strong>You can do anything with this software.</strong> Copy it. Modify it. Sell it. Use it to build a competing product. Use it to reimplement every open source library you depend on. The license imposes zero restrictions.</p>
+
+  <h2>Why 0BSD</h2>
+  <p>A tool designed to change the license of other people's code would be hypocritical under a restrictive license. 0BSD is the closest thing to public domain that works across jurisdictions. <em>We practice what we preach, for better or worse.</em></p>
+
+  <h2>What About the Output?</h2>
+  <p>Code generated by PHALUS is licensed under <strong>whatever license you specify</strong> with the <code>--license</code> flag. The tool is 0BSD. The output is yours. Whether anyone else agrees with that interpretation is between you, your lawyers, and the open source maintainers whose work you just reimplemented.</p>
+
+  <h2>No Warranty</h2>
+  <p>The "AS IS" clause is doing heavy lifting here. This tool provides no guarantee that its output is legally defensible, functionally correct, or morally justifiable. It generates code, logs an audit trail, and gets out of the way. <em>What you do with that is on you.</em></p>
+
+  <div class="bottom-links">
+    <a href="/">Home</a>
+    <a href="/ethics.html">Ethical Notice</a>
+    <a href="/risk.html">Risk Tolerance</a>
+    <a href="https://github.com/phalus-sh/phalus">GitHub</a>
+  </div>
+</div>
+
+</body>
+</html>

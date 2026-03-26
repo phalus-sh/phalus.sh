@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ethical Notice | PHALUS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --fg: #e8e8e8;
+  --dim: #555;
+  --accent: #ff3e3e;
+  --accent2: #ff6b35;
+  --green: #00ff41;
+  --yellow: #ffd700;
+  --cyan: #00e5ff;
+  --border: #222;
+  --card: #111;
+  --glow: rgba(255, 62, 62, 0.15);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.8;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent2); }
+
+.container { max-width: 720px; margin: 0 auto; padding: 80px 24px; }
+
+nav {
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 4px;
+  color: var(--accent);
+}
+
+.nav-back {
+  font-size: 0.75rem;
+  color: var(--dim);
+  letter-spacing: 1px;
+}
+
+.section-tag {
+  font-size: 0.6rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+h1 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.subtitle {
+  color: var(--dim);
+  margin-bottom: 48px;
+  font-size: 0.9rem;
+}
+
+h2 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--yellow);
+  margin: 48px 0 16px;
+}
+
+p { color: var(--dim); margin-bottom: 16px; font-size: 0.85rem; }
+p strong { color: var(--fg); font-weight: 500; }
+p em { color: var(--accent); font-style: normal; }
+
+.callout {
+  background: var(--card);
+  border-left: 3px solid var(--yellow);
+  padding: 20px 24px;
+  margin: 32px 0;
+  font-size: 0.85rem;
+  color: var(--dim);
+  line-height: 1.9;
+}
+
+.callout strong { color: var(--yellow); }
+
+.bottom-links {
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 24px;
+  font-size: 0.7rem;
+}
+
+.bottom-links a {
+  color: var(--dim);
+  border: 1px solid var(--border);
+  padding: 8px 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.bottom-links a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">PHALUS</a>
+  <a href="/" class="nav-back">&larr; Back</a>
+</nav>
+
+<div class="container">
+  <div class="section-tag">// Ethics</div>
+  <h1>Ethical Notice</h1>
+  <p class="subtitle">The part of the documentation most tools don't include.</p>
+
+  <div class="callout">
+    <strong>This tool raises serious ethical and legal questions about open source sustainability.</strong>
+    It exists for research, education, and transparent discourse &mdash; not to encourage license evasion.
+    You are responsible for understanding the legal implications in your jurisdiction.
+    The legality of AI-assisted clean room reimplementation is unsettled law.
+  </div>
+
+  <h2>What This Tool Does</h2>
+  <p>PHALUS automates the process of <strong>clean room reimplementation</strong> &mdash; producing functionally equivalent software without copying source code. This technique has legal precedent going back to <strong>Phoenix Technologies' 1984 IBM BIOS clone</strong> and the principle from <em>Baker v. Selden</em> (1879) that copyright protects expression, not ideas.</p>
+
+  <p>What used to take months of engineering effort now takes minutes of compute time. That's the part that should concern you.</p>
+
+  <h2>The Open Source Problem</h2>
+  <p>Open source licenses work because reimplementation was expensive enough to be impractical. A copyleft license like GPL enforced sharing because <strong>the alternative &mdash; writing it yourself &mdash; cost more than complying</strong>. AI has collapsed that cost asymmetry.</p>
+
+  <p>If anyone can reimplement any library in seconds under any license they choose, the enforcement mechanism that makes open source licenses meaningful is effectively gone. This is not a theoretical concern. It's happening now.</p>
+
+  <h2>Why Build It Anyway?</h2>
+  <p>The capability exists whether or not PHALUS exists. <a href="https://malus.sh">Malus</a> demonstrated this at FOSDEM 2026. The technique is straightforward: two LLM calls with an isolation barrier. Anyone with an API key can build this in an afternoon.</p>
+
+  <p>PHALUS makes the process <strong>visible, auditable, and discussable</strong>. It's harder to have an honest conversation about a threat you can't see. This tool is the threat made concrete.</p>
+
+  <h2>The Training Data Problem</h2>
+  <p>The strongest argument against AI clean rooms: <strong>the contamination happens at the training phase, not the inference phase</strong>. If the LLM was trained on the original source code, its output may unconsciously reproduce patterns, variable names, or algorithmic structure from training data.</p>
+
+  <p>The isolation firewall between Agent A and Agent B provides process isolation, but it cannot undo what the model already knows. This is a fundamental limitation that no amount of checksumming can resolve.</p>
+
+  <h2>What You Should Consider</h2>
+  <p><strong>Before using this tool on real dependencies, ask yourself:</strong></p>
+  <p>Does the original maintainer deserve compensation or credit for their work? Is the license they chose unreasonable, or are you just trying to avoid its obligations? Would you be comfortable if the maintainer saw what you're doing?</p>
+
+  <p>If the answer to that last question is no, the tool is working exactly as intended &mdash; as a mirror.</p>
+
+  <h2>References</h2>
+  <p><a href="https://malus.sh">Malus &mdash; Clean Room as a Service</a> (Dylan Ayrey &amp; Mike Nolan, FOSDEM 2026)</p>
+  <p><a href="https://en.wikipedia.org/wiki/Phoenix_Technologies#Cloning_the_IBM_PC_BIOS">Phoenix Technologies BIOS clean room</a> (1984)</p>
+  <p><a href="https://en.wikipedia.org/wiki/Baker_v._Selden">Baker v. Selden, 101 U.S. 99</a> (1879)</p>
+  <p><a href="https://en.wikipedia.org/wiki/Google_LLC_v._Oracle_America,_Inc.">Google v. Oracle, 593 U.S. 1</a> (2021)</p>
+
+  <div class="bottom-links">
+    <a href="/">Home</a>
+    <a href="/license.html">0BSD License</a>
+    <a href="/risk.html">Risk Tolerance</a>
+    <a href="https://github.com/phalus-sh/phalus">GitHub</a>
+  </div>
+</div>
+
+</body>
+</html>
