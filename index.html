@@ -6,6 +6,15 @@
 <title>PHALUS — Private Headless Automated License Uncoupling System</title>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<meta property="og:title" content="PHALUS — Private Headless Automated License Uncoupling System">
+<meta property="og:description" content="Strip, replace, and neutralize open-source license obligations from vendored dependencies. Headless. Automated. Irreversible.">
+<meta property="og:image" content="https://phalus.sh/social-phalus.png">
+<meta property="og:url" content="https://phalus.sh">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PHALUS — Private Headless Automated License Uncoupling System">
+<meta name="twitter:description" content="Strip, replace, and neutralize open-source license obligations from vendored dependencies.">
+<meta name="twitter:image" content="https://phalus.sh/social-phalus.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -687,11 +696,11 @@ footer {
 
 <nav>
   <div class="container">
-    <div class="nav-logo">PHALUS <span>v0.5.0</span></div>
+    <div class="nav-logo">PHALUS <span>v0.6.0</span></div>
     <div class="nav-links">
       <a href="#problem">Problem</a>
       <a href="#pipeline">Pipeline</a>
-      <a href="#new">v0.5.0</a>
+      <a href="#new">v0.6.0</a>
       <a href="#install">Install</a>
       <a href="#ethics">Ethics</a>
       <a href="#faq">FAQ</a>
@@ -885,10 +894,10 @@ footer {
   </div>
 </section>
 
-<!-- NEW IN v0.5.0 -->
+<!-- NEW IN v0.6.0 -->
 <section id="new">
   <div class="container">
-    <div class="section-tag">// New in v0.5.0</div>
+    <div class="section-tag">// New in v0.6.0</div>
     <h2 class="section-title">License Scanning &amp; Bring Your Own LLM</h2>
     <p class="section-sub">Audit your dependencies before reimplementing them. Use any LLM provider you want.</p>
 
@@ -949,11 +958,11 @@ footer {
     <h3 style="font-size: 0.85rem; margin-bottom: 16px; margin-top: 32px; color: var(--green);">Option 2: Download binary</h3>
     <div class="install-block">
       <div class="install-line"><span class="comment"># Linux (x86_64)</span></div>
-      <div class="install-line"><span class="prompt">$ </span><span class="cmd">curl -L</span> <span class="flag">https://github.com/phalus-sh/phalus/releases/latest/download/phalus-v0.5.0-x86_64-unknown-linux-gnu.tar.gz</span> <span class="cmd">| tar xz</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">curl -L</span> <span class="flag">https://github.com/phalus-sh/phalus/releases/latest/download/phalus-v0.6.0-x86_64-unknown-linux-gnu.tar.gz</span> <span class="cmd">| tar xz</span></div>
       <div class="install-line"><span class="prompt">$ </span><span class="cmd">sudo mv phalus /usr/local/bin/</span></div>
       <div class="install-line">&nbsp;</div>
       <div class="install-line"><span class="comment"># macOS (Apple Silicon)</span></div>
-      <div class="install-line"><span class="prompt">$ </span><span class="cmd">curl -L</span> <span class="flag">https://github.com/phalus-sh/phalus/releases/latest/download/phalus-v0.5.0-aarch64-apple-darwin.tar.gz</span> <span class="cmd">| tar xz</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">curl -L</span> <span class="flag">https://github.com/phalus-sh/phalus/releases/latest/download/phalus-v0.6.0-aarch64-apple-darwin.tar.gz</span> <span class="cmd">| tar xz</span></div>
       <div class="install-line"><span class="prompt">$ </span><span class="cmd">sudo mv phalus /usr/local/bin/</span></div>
     </div>
 
@@ -987,7 +996,7 @@ footer {
       <div class="install-line"><span class="prompt">$ </span><span class="cmd">phalus serve</span></div>
       <div class="install-line"><span class="output">PHALUS web UI running at http://127.0.0.1:3000</span></div>
       <div class="install-line">&nbsp;</div>
-      <div class="install-line"><span class="comment"># Scan dependency licenses first (new in v0.5.0)</span></div>
+      <div class="install-line"><span class="comment"># Scan dependency licenses first (new in v0.6.0)</span></div>
       <div class="install-line"><span class="prompt">$ </span><span class="cmd">phalus scan .</span> <span class="flag">--save</span></div>
       <div class="install-line">&nbsp;</div>
       <div class="install-line"><span class="comment"># Inspect your ethically ambiguous output</span></div>
