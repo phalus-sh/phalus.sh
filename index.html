@@ -696,11 +696,11 @@ footer {
 
 <nav>
   <div class="container">
-    <div class="nav-logo">PHALUS <span>v0.6.1</span></div>
+    <div class="nav-logo">PHALUS <span>v0.7.0</span></div>
     <div class="nav-links">
       <a href="#problem">Problem</a>
       <a href="#pipeline">Pipeline</a>
-      <a href="#new">v0.6.1</a>
+      <a href="#new">v0.7.0</a>
       <a href="#install">Install</a>
       <a href="#ethics">Ethics</a>
       <a href="#faq">FAQ</a>
@@ -895,51 +895,53 @@ footer {
   </div>
 </section>
 
-<!-- NEW IN v0.6.1 -->
+<!-- NEW IN v0.7.0 -->
 <section id="new">
   <div class="container">
-    <div class="section-tag">// New in v0.6.1</div>
-    <h2 class="section-title">License Scanning &amp; Bring Your Own LLM</h2>
-    <p class="section-sub">Audit your dependencies before reimplementing them. Use any LLM provider you want.</p>
+    <div class="section-tag">// New in v0.7.0</div>
+    <h2 class="section-title">Schema-Enforced Specifications</h2>
+    <p class="section-sub">Agent A now produces structured, machine-parseable specs. Agent B can actually read them.</p>
 
     <div class="problem-grid">
       <div class="problem-card">
-        <span class="icon">⚖</span>
-        <h3>License Scanning</h3>
-        <p>New <code>phalus scan</code> command walks your project for manifests and SBOMs, resolves licenses from registries,
-          normalizes to SPDX identifiers, and classifies risk. Supports <em>CycloneDX</em> and <em>SPDX</em> JSON formats.</p>
+        <span class="icon">📐</span>
+        <h3>Prescribed JSON Schemas</h3>
+        <p>All 10 CSP documents now follow strict JSON schemas with typed fields.
+          <code>02-api-surface</code> uses a structured <code>exports</code> array.
+          <code>09-test-scenarios</code> has concrete input/output pairs. No more unstructured blobs.</p>
       </div>
       <div class="problem-card">
-        <span class="icon">🔌</span>
-        <h3>Any OpenAI-Compatible LLM</h3>
-        <p>Use <em>OpenAI, OpenRouter, Ollama, vLLM, LiteLLM</em> — anything with a <code>/v1/chat/completions</code> endpoint.
-          Each agent can use a different provider. Run fully local with Ollama for maximum plausible deniability.</p>
+        <span class="icon">🔍</span>
+        <h3>Gap-Category Directives</h3>
+        <p>8 explicit directives ensure Agent A covers merge algorithms, type-detection cascades,
+          serialization semantics, interface contracts, default behaviors, security mechanisms,
+          enum values, and sentinel values. The stuff that <em>actually trips up reimplementors</em>.</p>
       </div>
       <div class="problem-card">
-        <span class="icon">🛡</span>
-        <h3>Security Hardening</h3>
-        <p>Cache path traversal prevention, atomic writes, and shell injection protection in container isolation mode.
-          Because if you're going to do something ethically dubious, at least <em>do it securely</em>.</p>
+        <span class="icon">🔗</span>
+        <h3>Fixed Completeness Checker</h3>
+        <p>Agent B's <code>check_completeness</code> now correctly parses the structured API surface,
+          including nested <code>static_methods</code> and <code>instance_methods</code>.
+          The agentic self-correction loop is no longer blind.</p>
       </div>
       <div class="problem-card">
-        <span class="icon">📡</span>
-        <h3>Scan REST API</h3>
-        <p>Trigger scans, list results, and query license stats via REST.
-          <code>POST /api/scans</code>, <code>GET /api/licenses</code>, and more. Fits into your CI pipeline.</p>
+        <span class="icon">📦</span>
+        <h3>All-JSON Format</h3>
+        <p>Every CSP document uses <code>.json</code> extension. No more JSON-masquerading-as-markdown.
+          Consistent, validatable, and honest about what it is.</p>
       </div>
     </div>
 
     <div class="install-block" style="margin-top: 32px;">
-      <div class="install-line"><span class="comment"># Scan your project's dependency licenses</span></div>
-      <div class="install-line"><span class="prompt">$ </span><span class="cmd">phalus scan ./my-project</span></div>
+      <div class="install-line"><span class="comment"># CSP output is now structured JSON across all documents</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">phalus run-one npm/left-pad@1.1.3 --output ./out</span></div>
       <div class="install-line">&nbsp;</div>
-      <div class="install-line"><span class="output">  Scan: ./my-project (42 packages from 1 manifest, 0 SBOMs)</span></div>
-      <div class="install-line"><span class="output">  Summary: 38 permissive, 3 copyleft-weak, 1 copyleft-strong</span></div>
-      <div class="install-line">&nbsp;</div>
-      <div class="install-line"><span class="comment"># Use Ollama locally — no API keys, no cloud</span></div>
-      <div class="install-line"><span class="prompt">$ </span><span class="cmd">export PHALUS_LLM__AGENT_A_PROVIDER=</span><span class="flag">ollama</span></div>
-      <div class="install-line"><span class="prompt">$ </span><span class="cmd">export PHALUS_LLM__AGENT_A_BASE_URL=</span><span class="flag">http://localhost:11434</span></div>
-      <div class="install-line"><span class="prompt">$ </span><span class="cmd">export PHALUS_LLM__AGENT_A_MODEL=</span><span class="flag">llama3</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">ls out/left-pad/.cleanroom/csp/</span></div>
+      <div class="install-line"><span class="output">  01-overview.json        06-type-definitions.json</span></div>
+      <div class="install-line"><span class="output">  02-api-surface.json     07-error-catalog.json</span></div>
+      <div class="install-line"><span class="output">  03-behavior-spec.json   08-compatibility-notes.json</span></div>
+      <div class="install-line"><span class="output">  04-edge-cases.json      09-test-scenarios.json</span></div>
+      <div class="install-line"><span class="output">  05-configuration.json   10-metadata.json</span></div>
     </div>
   </div>
 </section>
@@ -959,11 +961,11 @@ footer {
     <h3 style="font-size: 0.85rem; margin-bottom: 16px; margin-top: 32px; color: var(--green);">Option 2: Download binary</h3>
     <div class="install-block">
       <div class="install-line"><span class="comment"># Linux (x86_64)</span></div>
-      <div class="install-line"><span class="prompt">$ </span><span class="cmd">curl -L</span> <span class="flag">https://github.com/phalus-sh/phalus/releases/latest/download/phalus-v0.6.1-x86_64-unknown-linux-gnu.tar.gz</span> <span class="cmd">| tar xz</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">curl -L</span> <span class="flag">https://github.com/phalus-sh/phalus/releases/latest/download/phalus-v0.7.0-x86_64-unknown-linux-gnu.tar.gz</span> <span class="cmd">| tar xz</span></div>
       <div class="install-line"><span class="prompt">$ </span><span class="cmd">sudo mv phalus /usr/local/bin/</span></div>
       <div class="install-line">&nbsp;</div>
       <div class="install-line"><span class="comment"># macOS (Apple Silicon)</span></div>
-      <div class="install-line"><span class="prompt">$ </span><span class="cmd">curl -L</span> <span class="flag">https://github.com/phalus-sh/phalus/releases/latest/download/phalus-v0.6.1-aarch64-apple-darwin.tar.gz</span> <span class="cmd">| tar xz</span></div>
+      <div class="install-line"><span class="prompt">$ </span><span class="cmd">curl -L</span> <span class="flag">https://github.com/phalus-sh/phalus/releases/latest/download/phalus-v0.7.0-aarch64-apple-darwin.tar.gz</span> <span class="cmd">| tar xz</span></div>
       <div class="install-line"><span class="prompt">$ </span><span class="cmd">sudo mv phalus /usr/local/bin/</span></div>
     </div>
 
@@ -997,7 +999,7 @@ footer {
       <div class="install-line"><span class="prompt">$ </span><span class="cmd">phalus serve</span></div>
       <div class="install-line"><span class="output">PHALUS web UI running at http://127.0.0.1:3000</span></div>
       <div class="install-line">&nbsp;</div>
-      <div class="install-line"><span class="comment"># Scan dependency licenses first (new in v0.6.1)</span></div>
+      <div class="install-line"><span class="comment"># Scan dependency licenses first (new in v0.7.0)</span></div>
       <div class="install-line"><span class="prompt">$ </span><span class="cmd">phalus scan .</span> <span class="flag">--save</span></div>
       <div class="install-line">&nbsp;</div>
       <div class="install-line"><span class="comment"># Inspect your ethically ambiguous output</span></div>
